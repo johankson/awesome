@@ -5,27 +5,43 @@ using Android.Graphics;
 using Xamarin.Forms;
 using Awesome.Droid;
 
-[assembly: ExportRenderer(typeof(Label), typeof(AwesomeRenderer))]
+[assembly: ExportRenderer(typeof(Label), typeof(AwesomeLabelRenderer))]
+[assembly: ExportRenderer(typeof(Xamarin.Forms.Button), typeof(AwesomeButtonRenderer))]
 
 namespace Awesome.Droid
 {
-    public class AwesomeRenderer : LabelRenderer
+    public class AwesomeLabelRenderer : LabelRenderer
     {
         protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
         {
             base.OnElementChanged(e);
 
-            var label = (TextView)Control;
+            AwesomeUtil.CheckAndSetTypeFace(Control);
+        }
+    }
 
-            var text = label.Text;
+    public class AwesomeButtonRenderer : ButtonRenderer
+    {
+        protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.Button> e)
+        {
+            base.OnElementChanged(e);
+
+            AwesomeUtil.CheckAndSetTypeFace(Control);
+        }
+    }
+
+    internal static class AwesomeUtil
+    {
+        public static void CheckAndSetTypeFace(TextView view)
+        {
+            var text = view.Text;
             if(text.Length > 1 || text[0] < 0xf000)
             {
                 return;
             }
 
             var font = Typeface.CreateFromAsset(Xamarin.Forms.Forms.Context.ApplicationContext.Assets, "fontawesome.ttf");
-            label.Typeface = font;
+            view.Typeface = font;
         }
     }
 }
-   
