@@ -34,6 +34,7 @@ namespace Awesome.Droid
     {
         public static void CheckAndSetTypeFace(TextView view)
         {
+            if (view.Text.Length == 0) return;
             var text = view.Text;
             if(text.Length > 1 || text[0] < 0xf000)
             {
